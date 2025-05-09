@@ -1,6 +1,7 @@
 package org.example.webrise.wrtest.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.example.webrise.wrtest.dto.GetSubscriptionStatsDto;
 import org.example.webrise.wrtest.entity.SubscriptionEntity;
 import org.example.webrise.wrtest.service.SubscriptionService;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,11 @@ public class SubscriptionController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<SubscriptionEntity>> getUserSubscriptions(@PathVariable Long userId) {
         return ResponseEntity.ok(subscriptionService.getUserSubscriptions(userId));
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<List<GetSubscriptionStatsDto>> getTop3Subscriptions() {
+        return ResponseEntity.ok(subscriptionService.getTop3Subscriptions());
     }
 
     @DeleteMapping("/{userId}")

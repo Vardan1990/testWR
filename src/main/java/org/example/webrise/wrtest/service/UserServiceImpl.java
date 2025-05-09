@@ -4,6 +4,8 @@ import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.example.webrise.wrtest.dto.CreateUserDto;
+import org.example.webrise.wrtest.dto.UpdateUserDto;
 import org.example.webrise.wrtest.entity.UserEntity;
 import org.example.webrise.wrtest.exceptions.UserException;
 import org.example.webrise.wrtest.repo.UserRepository;
@@ -21,15 +23,19 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserEntity createUser(UserEntity user) {
+    public UserEntity createUser(CreateUserDto user) {
         Optional<UserEntity> userOptional = userRepository.findByEmail(user.getEmail());
         if (userOptional.isPresent()) {
             throw new UserException("user by this emil already exist");
         }
-        user.setCreated(LocalDateTime.now());
-        user.setUpdated(LocalDateTime.now());
+        UserEntity userEntity = UserEntity.builder()
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .created(user.getCreated())
+                .updated(user.getUpdated())
+                .build();
         log.info("Create user by email : {}", user.getEmail());
-        return userRepository.save(user);
+        return userRepository.save(userEntity);
     }
 
     @Override
@@ -45,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateUser(Long id, UserEntity updatedUser) {
+    public UserEntity updateUser(Long id, UpdateUserDto updatedUser) {
         return userRepository.findById(id).map(user -> {
             boolean updated = false;
 

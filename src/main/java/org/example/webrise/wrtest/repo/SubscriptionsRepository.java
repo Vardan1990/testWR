@@ -1,5 +1,6 @@
 package org.example.webrise.wrtest.repo;
 
+import org.example.webrise.wrtest.dto.GetSubscriptionStatsDto;
 import org.example.webrise.wrtest.entity.SubscriptionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,9 @@ public interface SubscriptionsRepository extends JpaRepository<SubscriptionEntit
 
     @Query(nativeQuery = true, value = "select s.* from subscribtions s where s.user_id=:userId")
     List<SubscriptionEntity> findByUserEntity(@Param("userId") Long userId);
+
+    @Query(nativeQuery = true, value = "select s.sub_name, count(*) from subscribtions s\n" +
+            "group by s.sub_name order by count(*) DESC LIMIT 3;")
+    List<GetSubscriptionStatsDto> findTop3Subscriptions();
 
 }

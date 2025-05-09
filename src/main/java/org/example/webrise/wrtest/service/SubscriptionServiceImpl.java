@@ -2,6 +2,7 @@ package org.example.webrise.wrtest.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.webrise.wrtest.dto.GetSubscriptionStatsDto;
 import org.example.webrise.wrtest.entity.SubscriptionEntity;
 import org.example.webrise.wrtest.entity.UserEntity;
 import org.example.webrise.wrtest.exceptions.SubscriptionException;
@@ -53,5 +54,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         log.info("Delete subscription with id: {}", userId);
         Optional<SubscriptionEntity> optionalSubscription = subscriptionsRepository.findBySubNameAndUserEntity(serviceName, userId);
         optionalSubscription.ifPresent(subscriptionsRepository::delete);
+    }
+
+    @Override
+    public List<GetSubscriptionStatsDto> getTop3Subscriptions() {
+        return subscriptionsRepository.findTop3Subscriptions();
+
     }
 }

@@ -1,6 +1,8 @@
 package org.example.webrise.wrtest.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.example.webrise.wrtest.dto.CreateUserDto;
+import org.example.webrise.wrtest.dto.UpdateUserDto;
 import org.example.webrise.wrtest.entity.UserEntity;
 import org.example.webrise.wrtest.service.UserService;
 import org.springframework.http.MediaType;
@@ -25,13 +27,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity createUser) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody CreateUserDto createUser) {
         return ResponseEntity.ok(userService.createUser(createUser));
 
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserEntity updateUser) {
+    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UpdateUserDto updateUser) {
         return ResponseEntity.ok(userService.updateUser(id, updateUser));
 
     }
