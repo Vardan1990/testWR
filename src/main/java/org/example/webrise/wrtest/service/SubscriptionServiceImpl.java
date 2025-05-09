@@ -9,6 +9,7 @@ import org.example.webrise.wrtest.exceptions.SubscriptionException;
 import org.example.webrise.wrtest.exceptions.UserException;
 import org.example.webrise.wrtest.repo.SubscriptionsRepository;
 import org.example.webrise.wrtest.repo.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     private final SubscriptionsRepository subscriptionsRepository;
     private final UserRepository userRepository;
+
+    @Value("${subscritions.top.limit.count:}")
+    private long topSubCountLimit;
 
 
     @Override
@@ -58,7 +62,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public List<GetSubscriptionStatsDto> getTop3Subscriptions() {
-        return subscriptionsRepository.findTop3Subscriptions();
+        return subscriptionsRepository.findTop3Subscriptions(topSubCountLimit);
 
     }
 }

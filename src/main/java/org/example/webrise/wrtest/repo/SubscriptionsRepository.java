@@ -18,7 +18,7 @@ public interface SubscriptionsRepository extends JpaRepository<SubscriptionEntit
     List<SubscriptionEntity> findByUserEntity(@Param("userId") Long userId);
 
     @Query(nativeQuery = true, value = "select s.sub_name, count(*) from subscribtions s\n" +
-            "group by s.sub_name order by count(*) DESC LIMIT 3;")
-    List<GetSubscriptionStatsDto> findTop3Subscriptions();
+            "group by s.sub_name order by count(*) DESC LIMIT :limitCount;")
+    List<GetSubscriptionStatsDto> findTop3Subscriptions(@Param(("limitCount")) long limitCount);
 
 }
